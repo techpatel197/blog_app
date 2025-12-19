@@ -26,7 +26,7 @@ pipeline {
                 sh "docker rm ${CONTAINER_NAME} || true"
 
                 // Run new container
-                sh "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${IMAGE_NAME}:latest"
+                sh "docker run -d --name ${CONTAINER_NAME} -p 80:3000 ${IMAGE_NAME}:latest"
             }
         }
     }
