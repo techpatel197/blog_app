@@ -29,7 +29,7 @@ pipeline {
                 // 'docker-hub-creds' is the ID you set in Jenkins UI
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'D_HUB_USER', passwordVariable: 'D_HUB_PASS')]) {
                     // 1. Log in to Docker Hub
-                    sh "echo ${D_HUB_PASS} | docker login -u ${D_HUB_USER} --password-stdin"
+                    sh 'echo ${D_HUB_PASS} | docker login -u ${D_HUB_USER} --password-stdin'
                     // 2. Tag image with Docker Hub username/repo
                     sh "docker tag ${IMAGE_NAME}:latest ${D_HUB_USER}/${IMAGE_NAME}:latest"
                     // 3. Push to Docker Hub
