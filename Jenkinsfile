@@ -5,11 +5,6 @@ pipeline {
         githubPush()
     }
 
-    // tools {
-    //     // Must match the name you gave in Global Tool Configuration
-    //     scannerHome = tool 'sonar-scanner' 
-    // }
-
     environment {
         // define docker image and container name here
         IMAGE_NAME="drivenc-blogapp-img"
