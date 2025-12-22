@@ -32,8 +32,7 @@ pipeline {
                     sh "${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=blog-app \
                         -Dsonar.projectName=BlogApp \
-                        -Dsonar.sources=src" \
-                        -Dsonar.language=js" 
+                        -Dsonar.sources=src"
                 }
             }
         }
