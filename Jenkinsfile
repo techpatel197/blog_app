@@ -27,12 +27,19 @@ pipeline {
         
         stage('SonarQube Analysis') {
             steps {
-                // Must match the Server Name in System Configuration
-                withSonarQubeEnv('SonarQube-Server') {
-                    sh "${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=blog-app \
-                        -Dsonar.projectName=BlogApp \
-                        -Dsonar.sources=src"
+                script {
+                    // This 'sonar-scanner' name MUST match the Name field in 
+                    // Manage Jenkins > Tools > SonarQube Scanner
+                    def scannerHome = tool 'sonar-scanner'
+                    
+                    // 'SonarQube-Server' MUST match the Name field in 
+                    // Manage Jenkins > System > SonarQube Servers
+                    withSonarQubeEnv('SonarQube-Server') {
+                        sh "${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=blog-app \
+                            -Dsonar.projectName=BlogApp \
+                            -Dsonar.sources=src"
+                    }
                 }
             }
         }
