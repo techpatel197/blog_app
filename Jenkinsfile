@@ -50,7 +50,7 @@ pipeline {
     }
     post {
         success {
-            echo "Application successfully deployed to port 3000"
+            echo "Application successfully deployed to port 3000!"
         }
         failure {
             echo "Deployment failed. Check Jenkins logs for details."
