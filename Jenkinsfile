@@ -5,12 +5,18 @@ pipeline {
         githubPush()
     }
 
+    tools {
+        // Must match the name you gave in Global Tool Configuration
+        scannerHome = tool 'sonar-scanner' 
+    }
+
     environment {
         // define docker image and container name here
         IMAGE_NAME="drivenc-blogapp-img"
         CONTAINER_NAME="drivenc-blogapp-cont"
         DOCKER_HUB_REPO="kishanpatel617/kp-docker-img"
     }
+    
     stages {
         stage('Checkout Code') {
             steps {
@@ -18,6 +24,29 @@ pipeline {
                 checkout scm
             }
         }
+        
+        stage('SonarQube Analysis') {
+            steps {
+                // Must match the Server Name in System Configuration
+                withSonarQubeEnv('SonarQube-Server') {
+                    sh "${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=blog-app \
+                        -Dsonar.projectName=BlogApp \
+                        -Dsonar.sources=src" \
+                        -Dsonar.language=js" 
+                }
+            }
+        }
+
+        stage("Quality Gate") {
+            steps {
+                // Optional: Pauses pipeline until SonarQube returns a "Passed" status
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+        
         stage('Build-Image') {
             steps {
                 // Uses your existing Dockerfile in the root directory
